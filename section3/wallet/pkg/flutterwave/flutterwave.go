@@ -1,5 +1,5 @@
 // internal/services/flutterwave.go
-package services
+package pkg
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"section5/wallet/infra/models"
+	"section3/wallet/infra/models"
 )
 
 type FlutterwaveService struct {

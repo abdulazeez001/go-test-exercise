@@ -4,9 +4,15 @@ import (
 	"log"
 	"net/http"
 
+	pkg "section3/wallet/pkg/stellar"
+
 	"github.com/gin-gonic/gin"
-	"github.com/myazahq/go-test-exercise/section3/exercise2/service/wallet"
 )
+
+
+type Handler struct {
+	StellarService     *pkg.StellarService
+}
 
 type WalletHandler interface {
 	CreateWallet(ctx *gin.Context)
@@ -23,7 +29,7 @@ func NewWalletHandler(ws wallet.WalletService) *walletHandler {
 }
 
 func (vh *walletHandler) CreateWallet(ctx *gin.Context) {
-	walletResponse, err := vh.walletService.CreateWallet()
+	walletResponse, err := pkg.NewStellarService.
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
