@@ -1,0 +1,7 @@
+go 1.19
+
+use (
+	./section1
+	./section2
+	./section3/wallet
+)
