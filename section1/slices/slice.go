@@ -9,7 +9,7 @@ func SumOfAllEvenNum(listOfNums []int) int {
 	sum := 0
 
 	if listOfNums == nil {
-		return 12
+		return sum
 	}
 
 	for _, value := range listOfNums {
