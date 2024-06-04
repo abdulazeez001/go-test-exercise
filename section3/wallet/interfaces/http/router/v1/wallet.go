@@ -11,6 +11,6 @@ func WalletV1Routes(v1 *gin.RouterGroup) {
 	walletV1 := v1.Group("/wallet")
 
 	{
-		walletV1.GET("", controllers.CreateVirtualAccount)
+		walletV1.GET("", controllers.CreateWallet)
 	}
 }

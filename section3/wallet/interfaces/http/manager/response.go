@@ -7,14 +7,14 @@ import (
 )
 
 type BasicResponse struct {
-	Success    bool              `json:"success"`
-	Name       string            `json:"name"`
-	StatusCode int               `json:"status_code"`
-	Message    string            `json:"message"`
-	Data       map[string]string `json:"data"`
+	Success    bool                   `json:"success"`
+	Name       string                 `json:"name"`
+	StatusCode int                    `json:"status_code"`
+	Message    string                 `json:"message"`
+	Data       map[string]interface{} `json:"data"`
 }
 
-func GetSuccessResponse(data map[string]string, message string, code int, context *gin.Context) {
+func GetSuccessResponse(data map[string]interface{}, message string, code int, context *gin.Context) {
 	response := BasicResponse{
 		Success:    true,
 		Message:    message,
@@ -28,7 +28,7 @@ func GetSuccessResponse(data map[string]string, message string, code int, contex
 	context.JSON(response.StatusCode, res)
 }
 
-func GetErrorResponse(data map[string]string, name string, message string, code int, context *gin.Context) {
+func GetErrorResponse(data map[string]interface{}, name string, message string, code int, context *gin.Context) {
 	response := BasicResponse{
 		Success:    false,
 		Name:       name,

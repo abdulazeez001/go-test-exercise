@@ -15,7 +15,7 @@ func NewCreateVirtualCardService() *VirtualCardService {
 
 func (virtualCardService *VirtualCardService) CreateVirtualAccount(ginContext *gin.Context) {
 	manager.GetSuccessResponse(
-		map[string]string{"message": "pong"},
+		map[string]interface{}{"message": "pong"},
 		"Fetched response successfully",
 		http.StatusOK,
 		ginContext,
