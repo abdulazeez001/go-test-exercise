@@ -20,4 +20,5 @@ func Version1RouteEntry(router *gin.Engine) {
 		})
 	})
 	v1.CardV1Routes(version1)
+	v1.WalletV1Routes(version1)
 }

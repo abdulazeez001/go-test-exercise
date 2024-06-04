@@ -1,40 +1,45 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
+	"section3/wallet/infra/models"
 	pkg "section3/wallet/pkg/stellar"
+
+	"section3/wallet/interfaces/http/manager"
 
 	"github.com/gin-gonic/gin"
 )
 
-
-type Handler struct {
-	StellarService     *pkg.StellarService
+type WalletHandler struct {
+	StellarService *pkg.StellarService
 }
 
-type WalletHandler interface {
-	CreateWallet(ctx *gin.Context)
-}
-
-type walletHandler struct {
-	walletService wallet.WalletService
-}
-
-func NewWalletHandler(ws wallet.WalletService) *walletHandler {
-	return &walletHandler{
-		walletService: ws,
+func NewWalletHandler() *WalletHandler {
+	return &WalletHandler{
+		StellarService: pkg.NewStellarService(),
 	}
 }
 
-func (vh *walletHandler) CreateWallet(ctx *gin.Context) {
-	walletResponse, err := pkg.NewStellarService.
+func (h *WalletHandler) CreateWallet(ginContext *gin.Context) {
+	balance, address, secret, err := h.StellarService.CreateWallet()
 	if err != nil {
-		log.Println(err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": http.StatusText(http.StatusInternalServerError)})
+		http.Error(ginContext.Writer, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, walletResponse)
+	response := models.WalletCreationResponse{Address: address, Secret: secret, Balance: balance}
+
+	responseMap := map[string]interface{}{
+		"address": response.Address,
+		"secret":  response.Secret,
+		"balance": response.Balance,
+	}
+
+	manager.GetSuccessResponse(
+		responseMap,
+		"Wallet created successfully",
+		http.StatusOK,
+		ginContext,
+	)
 }
