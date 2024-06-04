@@ -1,14 +1,14 @@
 package models
 
-type PaymentRequest struct {
-	Amount   float64 `json:"amount"`
-	Currency string  `json:"currency"`
-	Card     Card    `json:"card"`
+type VirtualAccountRequest struct {
+	Email       string `json:"email"`
+	IsPermanent bool   `json:"is_permanent"`
+	TXRef       string `json:"tx_ref"`
+	Bvn         string `json:"bvn,omitempty"`
 }
 
-type Card struct {
-	Number      string `json:"number"`
-	ExpiryMonth string `json:"expiry_month"`
-	ExpiryYear  string `json:"expiry_year"`
-	CVV         string `json:"cvv"`
+type VirtualAccountResponse struct {
+	AccountNumber string `json:"account_number"`
+	BankName      string `json:"bank_name"`
+	AccountName   string `json:"account_name"`
 }

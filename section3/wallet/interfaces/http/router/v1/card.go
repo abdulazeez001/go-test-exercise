@@ -11,6 +11,6 @@ func CardV1Routes(v1 *gin.RouterGroup) {
 	cardV1 := v1.Group("/create/dva")
 
 	{
-		cardV1.GET("/", controllers.CreateVirtualAccount)
+		cardV1.POST("/", controllers.CreateVirtualAccount)
 	}
 }

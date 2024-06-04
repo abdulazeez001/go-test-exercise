@@ -9,7 +9,7 @@ import (
 
 func CreateVirtualAccount(ginContext *gin.Context) {
 
-	todoService := card.NewCreateVirtualCardService()
+	cardService := card.NewCreateVirtualCardService()
 	fmt.Println("me")
-	todoService.CreateVirtualAccount(ginContext)
+	cardService.CreateVirtualAccount(ginContext)
 }

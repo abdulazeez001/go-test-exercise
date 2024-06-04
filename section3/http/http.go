@@ -7,12 +7,12 @@ import (
 	"os"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello, World!")
 }
 
 func main() {
-	http.HandleFunc("/", helloHandler)
+	http.HandleFunc("/", HelloHandler)
 
 	port := "8080"
 	log.Printf("[pid %d] REST server Listening on port %s", os.Getpid(), port)

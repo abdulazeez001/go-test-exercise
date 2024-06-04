@@ -1,55 +1,53 @@
-// internal/services/flutterwave.go
 package pkg
 
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"net/http"
-	"os"
-
+	"section3/wallet/config"
 	"section3/wallet/infra/models"
 )
 
-type FlutterwaveService struct {
-	APIKey string
-}
+const flutterwaveURL = "https://api.flutterwave.com/v3/virtual-account-numbers"
 
-func NewFlutterwaveService() *FlutterwaveService {
-	return &FlutterwaveService{
-		APIKey: os.Getenv("FLUTTERWAVE_API_KEY"),
-	}
-}
+var FlutterwaveAPIKey = config.Get["flutterwave"].FlutterwaveApikey
 
-func (s *FlutterwaveService) HandlePayment(request models.PaymentRequest) (string, error) {
-	url := "https://api.flutterwave.com/v3/payments"
+func CreateVirtualAccount(request models.VirtualAccountRequest) (models.VirtualAccountResponse, error) {
+	var response models.VirtualAccountResponse
 
-	jsonData, err := json.Marshal(request)
+	reqBody, err := json.Marshal(request)
 	if err != nil {
-		return "", err
+		return response, err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", flutterwaveURL, bytes.NewBuffer(reqBody))
 	if err != nil {
-		return "", err
+		return response, err
 	}
 
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+s.APIKey)
+	req.Header.Set("Authorization", "Bearer "+FlutterwaveAPIKey)
 
-	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return response, err
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("failed to process payment, status: %s", resp.Status)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return response, err
 	}
 
-	var responseBody map[string]interface{}
-	json.NewDecoder(resp.Body).Decode(&responseBody)
+	if resp.StatusCode != http.StatusOK {
+		return response, err
+	}
 
-	return responseBody["status"].(string), nil
+	if err := json.Unmarshal(body, &response); err != nil {
+		return response, err
+	}
+
+	return response, nil
 }
