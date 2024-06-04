@@ -10,6 +10,5 @@ import (
 func CreateWallet(ginContext *gin.Context) {
 
 	walletService := wallet.NewWalletHandler()
-	fmt.Println("me")
 	walletService.CreateWallet(ginContext)
 }
