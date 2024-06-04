@@ -7,5 +7,6 @@ import (
 var _ = godotenv.Load()
 
 var Get = map[string]Data{
-	"app": getApp(),
+	"app":         getApp(),
+	"flutterwave": getFlutterwave(),
 }

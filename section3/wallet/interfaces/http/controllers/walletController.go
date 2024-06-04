@@ -9,7 +9,7 @@ import (
 
 func CreateWallet(ginContext *gin.Context) {
 
-	todoService := wallet.NewWalletHandler()
+	walletService := wallet.NewWalletHandler()
 	fmt.Println("me")
-	todoService.CreateWallet(ginContext)
+	walletService.CreateWallet(ginContext)
 }
